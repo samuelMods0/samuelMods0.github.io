@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Never Gonna Give You Up</title>
+</head>
+<body>
+    <h1>Prepare to be rickrolled.</h1>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=S84fHHlpCtLkC0aq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <script>
+let wakeLock = null;
+
+async function requestWakeLock() {
+    try {
+        wakeLock = await navigator.wakeLock.request("screen");
+        console.log("Wake Lock active");
+
+        wakeLock.addEventListener("release", () => {
+            console.log("Wake Lock released");
+        });
+    } catch (err) {
+        console.error(`${err.name}: ${err.message}`);
+    }
+}
+
+// Request it once the page loads.
+window.addEventListener("load", requestWakeLock);
+
+// If the page becomes visible again (for example after sleep),
+// try requesting it again.
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+        requestWakeLock();
+    }
+});
+</script>
+</body>
+</html>
